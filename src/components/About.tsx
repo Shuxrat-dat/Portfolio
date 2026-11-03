@@ -3,36 +3,35 @@
 import { domains, focusAreas, profile } from "@/data/content";
 import { Reveal, Stagger, StaggerItem } from "./ui/Reveal";
 import { TiltCard } from "./ui/TiltCard";
+import { ScrambleText } from "./ui/ScrambleText";
+import { ScrollText } from "./ui/ScrollText";
 
 export function About() {
   return (
     <section id="about" className="section">
       <div className="container">
         <Reveal>
-          <p className="eyebrow">01 — О себе</p>
+          <p className="eyebrow">
+            <ScrambleText text="01 — О себе" />
+          </p>
           <h2 className="section-title">
             <span className="gradient-text">Создаю продукты,</span>
             <br />
             готовые к production
           </h2>
-          <p className="section-lead">
-            Для работодателей важна не витрина, а то, как я проектирую систему,
-            закрываю риски и сопровождаю продукт после релиза.
-          </p>
+          <ScrollText
+            className="section-lead"
+            text="Для работодателей важна не витрина, а то, как я проектирую систему, закрываю риски и сопровождаю продукт после релиза."
+          />
         </Reveal>
 
         <div className="mt-12 grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
           <Reveal>
             <div className="glass group relative overflow-hidden rounded-[1.8rem] p-7 md:p-9">
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(139,156,255,0.16),transparent_45%)]" />
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(255,255,255,0.16),transparent_45%)]" />
               <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
               {profile.about.map((paragraph) => (
-                <p
-                  key={paragraph.slice(0, 32)}
-                  className="relative mb-5 text-[1.05rem] leading-[1.85] text-ink/88 last:mb-0"
-                >
-                  {paragraph}
-                </p>
+                <ScrollText key={paragraph.slice(0, 32)} className="relative mb-5 text-[1.05rem] leading-[1.85] text-ink/88 last:mb-0" text={paragraph} />
               ))}
             </div>
           </Reveal>
@@ -53,7 +52,7 @@ export function About() {
 
         <Reveal className="mt-8" delay={0.1}>
           <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.16em] text-dim">
-            Отрасли и типы продуктов
+            <ScrambleText text="Отрасли и типы продуктов" />
           </p>
           <div className="flex flex-wrap gap-2.5">
             {domains.map((domain) => (

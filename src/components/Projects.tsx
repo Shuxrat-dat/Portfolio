@@ -13,6 +13,8 @@ import {
 import { useRef, useState, type MouseEvent } from "react";
 import { projects } from "@/data/content";
 import { MagneticButton } from "./ui/MagneticButton";
+import { ScrambleText } from "./ui/ScrambleText";
+import { ScrollText } from "./ui/ScrollText";
 
 type Project = (typeof projects)[number];
 
@@ -285,7 +287,7 @@ export function Projects() {
     <section id="portfolio" className="relative overflow-hidden py-[clamp(6rem,12vw,10rem)]">
       {/* Premium depth background */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_20%_10%,rgba(139,156,255,0.12),transparent_45%),radial-gradient(700px_circle_at_80%_40%,rgba(167,139,250,0.08),transparent_40%),linear-gradient(180deg,#050505_0%,#08080c_45%,#050505_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_20%_10%,rgba(255,255,255,0.12),transparent_45%),radial-gradient(700px_circle_at_80%_40%,rgba(212,212,216,0.08),transparent_40%),linear-gradient(180deg,#050505_0%,#08080c_45%,#050505_100%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[length:72px_72px] opacity-40 [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]" />
         <motion.div
           aria-hidden
@@ -309,15 +311,18 @@ export function Projects() {
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           className="mb-16 max-w-3xl md:mb-24"
         >
-          <p className="eyebrow">04 — Портфолио</p>
+          <p className="eyebrow">
+            <ScrambleText text="04 — Портфолио" />
+          </p>
           <h2 className="section-title mt-4">
             Проекты,
             <br />
             <span className="gradient-text">которые показывают подход</span>
           </h2>
-          <p className="section-lead mt-4 max-w-2xl">
-            Кейсы с фокусом на архитектуру, API, интерфейс и production-готовность.
-          </p>
+          <ScrollText
+            className="section-lead mt-4 max-w-2xl"
+            text="Кейсы с фокусом на архитектуру, API, интерфейс и production-готовность."
+          />
         </motion.div>
 
         <div className="flex flex-col gap-16 md:gap-24 lg:gap-28">

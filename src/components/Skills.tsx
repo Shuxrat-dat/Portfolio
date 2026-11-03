@@ -4,6 +4,8 @@ import { motion, useReducedMotion } from "framer-motion";
 import { skillMeters, techStackCards } from "@/data/content";
 import { Reveal } from "./ui/Reveal";
 import { TiltCard } from "./ui/TiltCard";
+import { ScrambleText } from "./ui/ScrambleText";
+import { ScrollText } from "./ui/ScrollText";
 
 function SkillMeter({ name, value, index }: { name: string; value: number; index: number }) {
   const reduce = useReducedMotion();
@@ -27,7 +29,7 @@ function SkillMeter({ name, value, index }: { name: string; value: number; index
       </div>
       <div className="h-1.5 overflow-hidden rounded-full bg-white/8">
         <motion.div
-          className="h-full rounded-full bg-gradient-to-r from-accent via-[#a5b4fc] to-white"
+          className="h-full rounded-full bg-gradient-to-r from-zinc-600 via-zinc-300 to-white"
           initial={reduce ? { width: `${value}%` } : { width: 0 }}
           whileInView={{ width: `${value}%` }}
           viewport={{ once: true }}
@@ -43,22 +45,24 @@ export function Skills() {
 
   return (
     <section id="skills" className="relative overflow-hidden py-[clamp(5rem,10vw,8rem)]">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(800px_circle_at_70%_0%,rgba(139,156,255,0.08),transparent_45%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(800px_circle_at_70%_0%,rgba(255,255,255,0.08),transparent_45%)]" />
 
       <div className="relative z-10 container">
         <Reveal>
           <div className="mb-12 md:mb-16">
-            <p className="eyebrow">03 — Навыки</p>
+            <p className="eyebrow">
+            <ScrambleText text="03 — Навыки" />
+          </p>
             <h2 className="section-title mt-4">
               Стек
               <br />
               <span className="gradient-text">технологий</span>
             </h2>
             <div className="mt-4 h-px w-16 bg-gradient-to-r from-accent to-transparent" />
-            <p className="section-lead mt-5">
-              Основной стек: Node.js, TypeScript, React, Next.js, PostgreSQL, Prisma,
-              Docker и современные инструменты разработки.
-            </p>
+            <ScrollText
+            className="section-lead mt-5"
+            text="Основной стек: Node.js, TypeScript, React, Next.js, PostgreSQL, Prisma, Docker и современные инструменты разработки."
+          />
           </div>
         </Reveal>
 

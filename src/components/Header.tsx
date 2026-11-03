@@ -1,8 +1,9 @@
 "use client";
 
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useMotionValueEvent, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
 import { profile } from "@/data/content";
+import { heroProgress } from "@/lib/heroProgress";
 import { Magnetic } from "./ui/Magnetic";
 
 const links = [
@@ -18,9 +19,14 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("top");
   const { scrollY } = useScroll();
+  const logoOpacity = useTransform(heroProgress, [0.85, 1], [0, 1]);
 
+  // Keep the glass pill off until the hero name has landed, so it doesn't blur the flight.
   useMotionValueEvent(scrollY, "change", (value) => {
-    setScrolled(value > 20);
+    setScrolled(value > 20 && heroProgress.get() >= 0.98);
+  });
+  useMotionValueEvent(heroProgress, "change", (progress) => {
+    setScrolled(scrollY.get() > 20 && progress >= 0.98);
   });
 
   useEffect(() => {
@@ -58,10 +64,18 @@ export function Header() {
       >
         <div className="flex h-[3.9rem] items-center justify-between px-4 md:px-5">
           <Magnetic strength={0.2}>
-            <a href="#top" className="font-medium tracking-tight" data-cursor="pointer">
-              {profile.shortName}
+            <motion.a
+              href="#top"
+              aria-label={profile.shortName}
+              className="inline-flex text-[1.05rem] leading-none font-bold tracking-[-0.06em] uppercase"
+              data-cursor="pointer"
+              style={{ opacity: logoOpacity }}
+            >
+              <span id="header-logo" className="chrome-text">
+                {profile.shortName}
+              </span>
               <span className="text-accent">.</span>
-            </a>
+            </motion.a>
           </Magnetic>
 
           <nav className="hidden items-center gap-1 md:flex">

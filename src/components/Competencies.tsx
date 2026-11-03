@@ -3,6 +3,8 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { education, workExperience } from "@/data/content";
 import { Reveal } from "./ui/Reveal";
+import { ScrambleText } from "./ui/ScrambleText";
+import { ScrollText } from "./ui/ScrollText";
 
 function TimelineColumn({
   title,
@@ -61,7 +63,7 @@ function TimelineColumn({
               }}
               className="relative"
             >
-              <span className="absolute top-5 -left-[18px] h-3 w-3 rounded-full border-2 border-[#050505] bg-accent shadow-[0_0_16px_rgba(139,156,255,0.7)]" />
+              <span className="absolute top-5 -left-[18px] h-3 w-3 rounded-full border-2 border-[#050505] bg-accent shadow-[0_0_16px_rgba(255,255,255,0.7)]" />
 
               <div className="glass group rounded-[1.4rem] p-5 transition duration-500 hover:border-white/18 hover:bg-white/[0.04] md:p-6">
                 <h4 className="text-lg font-medium tracking-tight text-white md:text-xl">
@@ -81,19 +83,22 @@ function TimelineColumn({
 export function Competencies() {
   return (
     <section id="competencies" className="relative overflow-hidden py-[clamp(5rem,10vw,8rem)]">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(700px_circle_at_20%_0%,rgba(139,156,255,0.1),transparent_45%),radial-gradient(600px_circle_at_90%_40%,rgba(167,139,250,0.08),transparent_40%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(700px_circle_at_20%_0%,rgba(255,255,255,0.1),transparent_45%),radial-gradient(600px_circle_at_90%_40%,rgba(212,212,216,0.08),transparent_40%)]" />
 
       <div className="relative z-10 container">
         <Reveal>
           <div className="mb-14 text-center md:mb-16">
-            <p className="eyebrow mx-auto justify-center">02 — Компетенции</p>
+            <p className="eyebrow mx-auto justify-center">
+            <ScrambleText text="02 — Компетенции" />
+          </p>
             <h2 className="section-title mt-4">
               <span className="gradient-text">Образование</span> и опыт
             </h2>
             <div className="mx-auto mt-4 h-px w-16 bg-gradient-to-r from-transparent via-accent to-transparent" />
-            <p className="section-lead mx-auto mt-5">
-              Путь развития и практический опыт в создании production-ready продуктов.
-            </p>
+            <ScrollText
+            className="section-lead mx-auto mt-5"
+            text="Путь развития и практический опыт в создании production-ready продуктов."
+          />
           </div>
         </Reveal>
 

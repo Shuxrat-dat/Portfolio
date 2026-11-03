@@ -83,7 +83,7 @@ export function CustomCursor() {
       </motion.div>
 
       <motion.div
-        className="pointer-events-none fixed top-0 left-0 z-[98] h-40 w-40 rounded-full bg-[radial-gradient(circle,rgba(139,156,255,0.16),transparent_65%)] blur-2xl"
+        className="pointer-events-none fixed top-0 left-0 z-[98] h-40 w-40 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.07),transparent_65%)] blur-2xl"
         style={{ x: trailX, y: trailY, translateX: "-50%", translateY: "-50%" }}
       />
     </>

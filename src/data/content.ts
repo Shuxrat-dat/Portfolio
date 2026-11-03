@@ -191,7 +191,7 @@ export const projects = [
       "Turborepo",
     ],
     href: "https://github.com/Shuxrat-dat/companyos",
-    accent: "#2dd4bf",
+    accent: "#e4e4e7",
     image: "/projects/companyos.png",
   },
   {
@@ -222,7 +222,7 @@ export const projects = [
       "JWT",
     ],
     href: "https://github.com/Shuxrat-dat/PayForge",
-    accent: "#34d399",
+    accent: "#e4e4e7",
     image: "/projects/payforge.png",
   },
   {
@@ -241,7 +241,7 @@ export const projects = [
     ],
     stack: ["Next.js", "TypeScript", "React", "Tailwind CSS"],
     href: "https://github.com/Shuxrat-dat/SwitchLab",
-    accent: "#60a5fa",
+    accent: "#e4e4e7",
     image: "/projects/switchlab.png",
   },
   {
@@ -262,7 +262,7 @@ export const projects = [
     ],
     stack: ["Python", "Ollama", "FastAPI", "LLM", "REST API"],
     href: "https://github.com/Shuxrat-dat/Ai-Agent",
-    accent: "#fbbf24",
+    accent: "#e4e4e7",
     image: "/projects/ai-agent.png",
   },
 ];

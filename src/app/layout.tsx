@@ -4,6 +4,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import { AmbientBackground } from "@/components/AmbientBackground";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { IntroOverlay, introBootScript } from "@/components/IntroOverlay";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { PageTransition } from "@/components/providers/PageTransition";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
@@ -39,8 +40,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className={`${GeistSans.variable} ${inter.variable} ${jetbrains.variable}`}>
+    <html
+      lang="ru"
+      className={`${GeistSans.variable} ${inter.variable} ${jetbrains.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: introBootScript }} />
+      </head>
       <body className="font-sans antialiased">
+        <IntroOverlay />
         <SmoothScroll>
           <AmbientBackground />
           <ScrollProgress />

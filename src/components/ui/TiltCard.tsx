@@ -19,7 +19,7 @@ export function TiltCard({ children, className = "", intensity = 10 }: TiltCardP
 
   const springX = useSpring(rotateX, { stiffness: 220, damping: 18 });
   const springY = useSpring(rotateY, { stiffness: 220, damping: 18 });
-  const glow = useMotionTemplate`radial-gradient(520px circle at ${glowX}% ${glowY}%, rgba(139,156,255,0.18), transparent 42%)`;
+  const glow = useMotionTemplate`radial-gradient(520px circle at ${glowX}% ${glowY}%, rgba(255,255,255,0.09), transparent 42%)`;
 
   const onMove = (event: MouseEvent<HTMLDivElement>) => {
     if (reduced || !ref.current) return;

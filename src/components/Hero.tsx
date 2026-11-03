@@ -1,107 +1,212 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import {
+  motion,
+  useMotionValue,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { profile } from "@/data/content";
+import { heroProgress } from "@/lib/heroProgress";
+import { getIntroDelay } from "./IntroOverlay";
 import { MagneticButton } from "./ui/MagneticButton";
-import { Reveal } from "./ui/Reveal";
-import { TextReveal } from "./ui/TextReveal";
+import { ParticlePortrait } from "./ui/ParticlePortrait";
+import { ScrambleText } from "./ui/ScrambleText";
+
+type NameGeometry = { dx: number; dy: number; scale: number; distance: number };
+
+const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+const ease = [0.22, 1, 0.36, 1] as const;
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
+  const reduced = useReducedMotion();
+  const [base] = useState(getIntroDelay);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
-  const y = useTransform(scrollYProgress, [0, 1], [0, 140]);
-  const opacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.96]);
+  const portraitY = useTransform(scrollYProgress, [0, 1], [0, 180]);
+  const portraitOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+
+  // Scroll-linked flight of the big name into the header logo.
+  const nameRef = useRef<HTMLSpanElement>(null);
+  const geometry = useRef<NameGeometry | null>(null);
+  const nameX = useMotionValue(0);
+  const nameY = useMotionValue(0);
+  const nameScale = useMotionValue(1);
+  const nameOpacity = useMotionValue(1);
+  const { scrollY } = useScroll();
+
+  const applyFlight = useCallback(
+    (sy: number) => {
+      const el = nameRef.current;
+      const logo = document.getElementById("header-logo");
+      if (!el || !logo) return;
+      if (sy <= 0) {
+        nameX.set(0);
+        nameY.set(0);
+        nameScale.set(1);
+        nameOpacity.set(1);
+        heroProgress.set(0);
+        return;
+      }
+      if (!geometry.current) {
+        const previous = el.style.transform;
+        el.style.transform = "none";
+        const from = el.getBoundingClientRect();
+        el.style.transform = previous;
+        const to = logo.getBoundingClientRect();
+        geometry.current = {
+          dx: to.left - from.left,
+          dy: to.top - (from.top + sy),
+          scale: to.width / from.width,
+          distance: window.innerHeight * 0.6,
+        };
+      }
+      const g = geometry.current;
+      const p = Math.min(1, sy / g.distance);
+      const e = easeInOutCubic(p);
+      nameX.set(g.dx * e);
+      nameY.set(sy + g.dy * e);
+      nameScale.set(1 + (g.scale - 1) * e);
+      nameOpacity.set(p < 0.82 ? 1 : 1 - (p - 0.82) / 0.18);
+      heroProgress.set(p);
+    },
+    [nameX, nameY, nameScale, nameOpacity],
+  );
+
+  useEffect(() => {
+    if (reduced) {
+      heroProgress.set(1);
+      return;
+    }
+    const onResize = () => {
+      geometry.current = null;
+      applyFlight(window.scrollY);
+    };
+    window.addEventListener("resize", onResize);
+    applyFlight(window.scrollY);
+    return () => window.removeEventListener("resize", onResize);
+  }, [reduced, applyFlight]);
+
+  useMotionValueEvent(scrollY, "change", (value) => {
+    if (!reduced) applyFlight(value);
+  });
+
+  const [first, last] = profile.name.split(" ");
+  const fade = (delay: number, y = 18) => ({
+    initial: reduced ? false : { opacity: 0, y, filter: "blur(8px)" },
+    animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+    transition: { duration: 0.9, delay: base + delay, ease },
+  });
 
   return (
-    <section
-      id="top"
-      ref={ref}
-      className="relative z-1 overflow-hidden pt-36 pb-24 md:pt-48 md:pb-32"
-    >
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute top-24 right-[8%] h-64 w-64 rounded-full bg-accent/15 blur-3xl"
-        animate={{ opacity: [0.35, 0.7, 0.35], scale: [0.95, 1.08, 0.95] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute bottom-10 left-[12%] h-56 w-56 rounded-full bg-accent-2/10 blur-3xl"
-        animate={{ opacity: [0.25, 0.55, 0.25], y: [0, -18, 0] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      <motion.div style={{ y, opacity, scale }} className="container">
-        <Reveal>
-          <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-2 shadow-[0_0_40px_rgba(139,156,255,0.08)] backdrop-blur-xl">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-60" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-success" />
-            </span>
-            <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
-              Open to work · {profile.level}
-            </span>
-          </div>
-        </Reveal>
-
-        <Reveal delay={0.05}>
-          <p className="eyebrow">{profile.role}</p>
-        </Reveal>
-
-        <TextReveal
-          as="h1"
-          text={profile.name}
-          delay={0.1}
-          gradient
-          className="mt-5 max-w-5xl text-[clamp(3.4rem,11vw,7.4rem)] font-semibold leading-[0.92] tracking-[-0.055em] text-white"
-        />
-
+    <section id="top" ref={ref} className="relative z-1 overflow-hidden">
+      <div className="relative flex min-h-[100svh] flex-col justify-end pt-28 pb-10 md:pb-14">
         <motion.div
-          className="mt-5 h-px max-w-xs origin-left bg-gradient-to-r from-accent via-accent-2 to-transparent"
-          initial={{ scaleX: 0, opacity: 0 }}
-          animate={{ scaleX: 1, opacity: 1 }}
-          transition={{ duration: 1.1, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        />
+          aria-hidden
+          style={{ y: portraitY, opacity: portraitOpacity }}
+          className="portrait-mask absolute inset-x-0 top-[7svh] bottom-[9svh] mx-auto w-[min(96vw,760px)]"
+        >
+          <div className="absolute inset-x-[15%] top-[18%] bottom-[20%] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.09),transparent_68%)] blur-3xl" />
+          <ParticlePortrait src="/portrait.webp" delay={base + 0.2} />
+        </motion.div>
 
-        <div className="mt-8 grid gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
-          <Reveal delay={0.28}>
-            <p className="max-w-2xl text-xl leading-relaxed text-muted md:text-[1.55rem]">
-              {profile.tagline}
-            </p>
-          </Reveal>
+        <div className="container relative z-10">
+          <h1
+            aria-label={profile.name}
+            className="flex justify-center text-[clamp(4.6rem,20.5vw,16rem)] leading-[0.82] font-bold tracking-[-0.06em] uppercase"
+          >
+            <motion.span
+              ref={nameRef}
+              className="inline-flex will-change-transform"
+              style={{
+                x: nameX,
+                y: nameY,
+                scale: nameScale,
+                opacity: nameOpacity,
+                transformOrigin: "0 0",
+              }}
+            >
+              {first.split("").map((letter, index) => (
+                <span key={index} aria-hidden className="inline-block overflow-hidden pb-[0.06em]">
+                  <motion.span
+                    className="chrome-text chrome-shine inline-block"
+                    initial={reduced ? false : { y: "105%" }}
+                    animate={{ y: "0%" }}
+                    transition={{ duration: 1, delay: base + 0.45 + index * 0.05, ease }}
+                  >
+                    {letter}
+                  </motion.span>
+                </span>
+              ))}
+            </motion.span>
+          </h1>
 
-          <Reveal delay={0.34} direction="left">
-            <div className="grid gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-5 font-mono text-sm text-muted backdrop-blur-xl">
-              <div>
-                <span className="text-ink">Опыт</span> · {profile.experience}
-              </div>
-              <div>
-                <span className="text-ink">Локация</span> · {profile.location}
-              </div>
-              <div>
-                <span className="text-ink">Фокус</span> · API · UI · Production
-              </div>
+          <div className="mt-5 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-5 text-center md:flex-row md:text-left">
+            <motion.p {...fade(0.85)} className="text-base text-muted md:text-lg">
+              <span className="font-semibold text-ink">{last}</span>
+              <span className="mx-2 text-dim">/</span>
+              {profile.role}
+            </motion.p>
+            <motion.div
+              {...fade(0.95)}
+              className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-2 backdrop-blur-xl"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-50" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+              </span>
+              <ScrambleText
+                text={`Open to work · ${profile.level}`}
+                delay={base + 0.95}
+                className="font-mono text-[11px] tracking-[0.18em] text-muted uppercase"
+              />
+            </motion.div>
+          </div>
+        </div>
+      </div>
+
+      <div className="container relative z-10 pt-10 pb-24 md:pt-16 md:pb-32">
+        <div className="grid gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
+          <motion.p
+            {...fade(1.05)}
+            className="max-w-2xl text-xl leading-relaxed text-muted md:text-[1.55rem]"
+          >
+            {profile.tagline}
+          </motion.p>
+
+          <motion.div
+            {...fade(1.15)}
+            className="grid gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-5 font-mono text-sm text-muted backdrop-blur-xl"
+          >
+            <div>
+              <span className="text-ink">Опыт</span> · {profile.experience}
             </div>
-          </Reveal>
+            <div>
+              <span className="text-ink">Локация</span> · {profile.location}
+            </div>
+            <div>
+              <span className="text-ink">Фокус</span> · API · UI · Production
+            </div>
+          </motion.div>
         </div>
 
-        <Reveal delay={0.4}>
-          <div className="mt-11 flex flex-wrap gap-3">
-            <MagneticButton href="#portfolio">Смотреть проекты</MagneticButton>
-            <MagneticButton href="#competencies" variant="ghost">
-              Компетенции
-            </MagneticButton>
-            <MagneticButton href="#contact" variant="ghost">
-              Написать мне
-            </MagneticButton>
-          </div>
-        </Reveal>
-      </motion.div>
+        <motion.div {...fade(1.25)} className="mt-11 flex flex-wrap gap-3">
+          <MagneticButton href="#portfolio">Смотреть проекты</MagneticButton>
+          <MagneticButton href="#competencies" variant="ghost">
+            Компетенции
+          </MagneticButton>
+          <MagneticButton href="#contact" variant="ghost">
+            Написать мне
+          </MagneticButton>
+        </motion.div>
+      </div>
     </section>
   );
 }
