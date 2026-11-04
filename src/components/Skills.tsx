@@ -61,7 +61,7 @@ export function Skills() {
             <div className="mt-4 h-px w-16 bg-gradient-to-r from-accent to-transparent" />
             <ScrollText
             className="section-lead mt-5"
-            text="Основной стек: Node.js, TypeScript, React, Next.js, PostgreSQL, Prisma, Docker и современные инструменты разработки."
+            text="Основной стек: Node.js, TypeScript, PostgreSQL, Prisma, Redis и Docker; интерфейсы на React и Next.js."
           />
           </div>
         </Reveal>

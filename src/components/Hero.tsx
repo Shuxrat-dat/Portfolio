@@ -198,15 +198,15 @@ export function Hero() {
               <span className="text-ink">Локация</span> · {profile.location}
             </div>
             <div>
-              <span className="text-ink">Фокус</span> · API · UI · Production
+              <span className="text-ink">Фокус</span> · API · Данные · Надёжность
             </div>
           </motion.div>
         </div>
 
         <motion.div {...fade(1.25)} className="mt-11 flex flex-wrap gap-3">
           <MagneticButton href="#portfolio">Смотреть проекты</MagneticButton>
-          <MagneticButton href="#competencies" variant="ghost">
-            Компетенции
+          <MagneticButton href={profile.resume.ru} variant="ghost" download>
+            Скачать резюме
           </MagneticButton>
           <MagneticButton href="#contact" variant="ghost">
             Написать мне

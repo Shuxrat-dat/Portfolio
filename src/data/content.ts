@@ -1,16 +1,20 @@
 export const profile = {
-  name: "Shuxrat Maxmadaliev",
+  name: "Shuxrat Mahmadaliev",
   shortName: "Shuxrat",
-  role: "Full Stack Developer",
+  role: "Backend Developer",
   level: "Middle",
   experience: "4,7 года",
   location: "Самарканд · Remote",
   tagline:
-    "Проектирую backend-архитектуру, собираю надёжные API и современные интерфейсы — от идеи до production.",
+    "Проектирую REST API, модели данных и серверную бизнес-логику — от схемы данных и API-контракта до фоновой обработки и тестов.",
   about: [
-    "Full Stack разработчик с опытом 4,7 года, специализирующийся на создании современных веб-приложений и масштабируемых backend-систем. Проектирую архитектуру приложений, разрабатываю REST API, создаю производительные пользовательские интерфейсы и сопровождаю проекты на всех этапах — от анализа требований и проектирования до развертывания и дальнейшей поддержки. Основной стек включает Node.js, TypeScript, React, Next.js, PostgreSQL, Prisma, Docker и современные инструменты разработки.",
-    "За время работы участвовал в создании платежных сервисов, систем аналитики, платформ управления таксопарком, AI-приложений и специализированных веб-сервисов. В каждом проекте уделяю особое внимание качеству архитектуры, безопасности, производительности и удобству дальнейшего сопровождения. Предпочитаю писать чистый, масштабируемый код, следовать современным стандартам разработки и использовать проверенные инженерные практики. Постоянно изучаю новые технологии, совершенствую навыки в области системного проектирования, DevOps и искусственного интеллекта, чтобы создавать надежные продукты, готовые к работе в production.",
+    "Backend-разработчик с 4,7 годами опыта в веб-разработке и проектной практике; основной стек — Node.js/TypeScript, PostgreSQL и React/Next.js. Проектирую REST API, модели данных и серверную бизнес-логику, создаю платёжные сервисы, мультитенантные платформы и AI-инструменты. В PayForge реализовал платёжные state machine, целочисленный денежный учёт, ledger, идемпотентность, очереди и подписанные webhooks.",
+    "Работаю с PostgreSQL/Prisma, Redis, RabbitMQ/BullMQ, Docker, GitHub Actions и автоматизированными тестами. Могу вести backend-функцию от схемы данных и API-контракта до фоновой обработки, тестов и воспроизводимого окружения; при необходимости закрываю интерфейс на React/Next.js. Ищу роль Backend Developer в команде, где важны надёжность API, безопасность и сопровождаемость.",
   ],
+  resume: {
+    ru: "/resume/Resume_Shuxrat_Mahmadaliev_RU.pdf",
+    en: "/resume/Resume_Shuxrat_Mahmadaliev_EN.pdf",
+  },
   contacts: {
     phone: "+998 (95) 000-57-86",
     phoneHref: "tel:+998950005786",
@@ -24,20 +28,20 @@ export const profile = {
 
 export const focusAreas = [
   {
-    title: "Backend-архитектура",
-    text: "Проектирую API, модели данных и сервисный слой так, чтобы система росла без хаоса.",
+    title: "API и данные",
+    text: "REST API с OpenAPI, идемпотентность, блокировки строк и модели данных под денежный домен.",
   },
   {
-    title: "Full Stack поставка",
-    text: "Закрываю цикл от базы и бизнес-логики до интерфейса, деплоя и сопровождения.",
+    title: "Фоновая обработка",
+    text: "RabbitMQ и BullMQ с retry/DLQ, schedulers и Redis locks.",
   },
   {
-    title: "Надёжность",
-    text: "Думаю про безопасность, валидацию, ошибки и то, как продукт будет жить через год.",
+    title: "Безопасность",
+    text: "RBAC/ACL, изоляция тенантов, HMAC-подпись webhooks и audit trail.",
   },
   {
-    title: "Производительность",
-    text: "Оптимизирую запросы, кэш и критические пути, чтобы приложение оставалось быстрым под нагрузкой.",
+    title: "Тесты и окружение",
+    text: "Unit, integration и E2E-тесты, Docker Compose, Nginx и GitHub Actions CI.",
   },
 ];
 
@@ -62,99 +66,88 @@ export const skillGroups = [
 
 export const domains = [
   "Платёжные сервисы",
-  "Системы аналитики",
-  "Управление таксопарком",
-  "AI-приложения",
-  "Специализированные веб-сервисы",
+  "Мультитенантные платформы",
+  "AI-инструменты",
+  "E-commerce",
+  "Telegram-боты",
 ];
 
 export const education = [
   {
-    title: "Full Stack Engineering",
-    meta: "Практика и системное обучение | 2020 — н/в",
-    text: "Постоянно углубляю навыки в Node.js, TypeScript, React, Next.js, PostgreSQL, архитектуре API и production-практиках через реальные проекты.",
+    title: "Самостоятельная подготовка",
+    meta: "Инженерная подготовка и проектная практика",
+    text: "Backend, базы данных, тестирование, распределённые workflows и AI-интеграции.",
   },
   {
-    title: "Backend & Databases",
-    meta: "PostgreSQL · Prisma · Redis | 2021 — н/в",
-    text: "Проектирование схем данных, ORM, кэширование, безопасность и производительность серверной части.",
-  },
-  {
-    title: "Modern Frontend",
-    meta: "React · Next.js · UI systems | 2021 — н/в",
-    text: "Создание современных интерфейсов, компонентных систем и адаптивных клиентских приложений.",
-  },
-  {
-    title: "DevOps & AI",
-    meta: "Docker · CI basics · LLM tools | 2023 — н/в",
-    text: "Контейнеризация, процесс поставки и интеграция локальных AI-инструментов в рабочие сервисы.",
+    title: "Языки",
+    meta: "Русский · Английский",
+    text: "Открыт к удалённой работе.",
   },
 ];
 
 export const workExperience = [
   {
-    title: "Full Stack Developer",
-    meta: "Remote · Product & Platform work | 2021 — н/в",
-    text: "Разработка и сопровождение веб-приложений полного цикла: архитектура, REST API, UI, деплой и поддержка в production.",
+    title: "PayForge",
+    meta: "Backend payment-gateway sandbox | 2026",
+    text: "Архитектура, API, тесты и инфраструктура песочницы платёжного шлюза без движения реальных денег.",
   },
   {
-    title: "Payment & Business Systems",
-    meta: "Платёжные и операционные сервисы | 2022 — н/в",
-    text: "Участие в создании платформ управления платежами, ролями, админ-панелями и безопасной серверной логикой.",
+    title: "AI Trading Agent",
+    meta: "Локальный AI/automation MVP | 2026",
+    text: "Сервисы, интеграции, safety и тесты Python-монорепозитория из 11 сервисов.",
   },
   {
-    title: "Operations & Analytics Platforms",
-    meta: "Таксопарк · аналитика · внутренние сервисы | 2022 — н/в",
-    text: "Работа над специализированными веб-сервисами и системами аналитики с акцентом на масштабируемость и сопровождение.",
+    title: "CompanyOS",
+    meta: "Ранний MVP мультитенантной SaaS-платформы | 2026",
+    text: "Full-stack архитектура: NestJS API, Next.js web, BullMQ worker и cron-scheduler.",
   },
   {
-    title: "AI Applications",
-    meta: "Локальные LLM и automation | 2024 — н/в",
-    text: "Разработка AI-ассистентов и сервисов на Python / FastAPI с интеграцией локальных моделей и инструментов.",
+    title: "SwitchLab / Switchyard",
+    meta: "Full-stack e-commerce demo | 2026",
+    text: "Rust API, React UI, тестирование и CI для магазина механических клавиатур.",
   },
 ];
 
 export const techStackCards = [
   {
     name: "Node.js",
-    text: "Серверная логика, API и фоновые процессы для масштабируемых приложений.",
+    text: "Основной backend-стек: Express и NestJS, REST API и фоновые процессы.",
   },
   {
     name: "TypeScript",
-    text: "Типобезопасный код на frontend и backend для надёжной долгосрочной поддержки.",
-  },
-  {
-    name: "React",
-    text: "Компонентные интерфейсы с понятной структурой и удобным UX.",
-  },
-  {
-    name: "Next.js",
-    text: "Современные веб-приложения с SSR/SSG, роутингом и production-ready поставкой.",
+    text: "Основной язык серверной логики и интерфейсов.",
   },
   {
     name: "PostgreSQL",
-    text: "Надёжное хранение данных, схемы, индексы и запросы под нагрузку.",
+    text: "Модели данных, транзакции и блокировки строк через SELECT FOR UPDATE.",
   },
   {
     name: "Prisma",
-    text: "Удобный и безопасный слой работы с базой данных в TypeScript-проектах.",
-  },
-  {
-    name: "Docker",
-    text: "Воспроизводимые окружения и упрощённый деплой сервисов.",
+    text: "Схемы и миграции: 32 модели в PayForge, 96 в CompanyOS.",
   },
   {
     name: "Redis",
-    text: "Кэш и ускорение критических путей для высокой производительности.",
+    text: "Fraud scoring в PayForge, очереди и блокировки.",
   },
   {
-    name: "Python",
-    text: "AI-сервисы, автоматизация и FastAPI для локальных ассистентов.",
+    name: "RabbitMQ / BullMQ",
+    text: "Асинхронные процессы с retry/DLQ и schedulers.",
+  },
+  {
+    name: "Docker",
+    text: "Воспроизводимые окружения через Docker Compose и Nginx.",
+  },
+  {
+    name: "React / Next.js",
+    text: "Интерфейсы, когда их нужно закрыть вместе с backend.",
+  },
+  {
+    name: "Python · Rust",
+    text: "FastAPI и AI-сервисы; транзакционный API на Rust/Axum.",
   },
 ];
 
 export const skillMeters = [
-  { name: "Full Stack разработка", value: 90 },
   { name: "Backend / API", value: 92 },
   { name: "Frontend / UI", value: 85 },
   { name: "Базы данных", value: 88 },
@@ -165,28 +158,97 @@ export const skillMeters = [
 export const projects = [
   {
     id: "01",
+    slug: "payforge",
+    title: "PayForge",
+    subtitle: "Песочница платёжного шлюза",
+    summary:
+      "Песочница платёжного шлюза без движения реальных денег: payment intents, кошельки и ledger, подписки, счета, refunds, disputes, hosted checkout и webhooks.",
+    description:
+      "21 feature-модуль, 32 модели Prisma, 65 Jest/Supertest тестов и OpenAPI 3 примерно для 74 API paths.",
+    features: [
+      "BigInt-деньги и guarded state transitions",
+      "Ledger под SELECT FOR UPDATE",
+      "Idempotency-Key и fraud scoring на Redis",
+      "Worker: RabbitMQ retry/DLQ, clearing, dunning",
+      "JWT refresh rotation с reuse detection",
+      "API keys и HMAC-подпись webhooks",
+    ],
+    stack: [
+      "TypeScript",
+      "Node.js",
+      "Express",
+      "PostgreSQL",
+      "Prisma",
+      "Redis",
+      "RabbitMQ",
+      "Jest",
+      "Docker",
+      "GitHub Actions",
+    ],
+    href: "https://github.com/Shuxrat-dat/PayForge",
+    accent: "#e4e4e7",
+    image: "/projects/payforge.png",
+  },
+  {
+    id: "02",
+    slug: "ai-agent",
+    title: "AI Trading Agent",
+    subtitle: "Локальный AI/automation MVP",
+    summary:
+      "Python-монорепозиторий из 11 сервисов (~6K LOC): RAG по Obsidian, анализ рынка, Telegram, voice operator, PyQt6 HUD и управление MetaTrader 5 через MQL5 JSON-bridge.",
+    description:
+      "133 pytest-теста и 4 ADR; поддержаны локальный Ollama и опциональный OpenAI.",
+    features: [
+      "AgentBrain объединяет интерфейсы",
+      "Hybrid search: bge-m3 + LanceDB",
+      "Числа считает код, LLM только интерпретирует",
+      "Numeric validator и deterministic fallback",
+      "Demo-only trade execution с 4 safety-гейтами",
+      "Монитор уровней и журнал дисциплины",
+    ],
+    stack: [
+      "Python 3.12",
+      "FastAPI",
+      "Ollama/OpenAI",
+      "LanceDB",
+      "aiogram",
+      "MetaTrader5",
+      "MQL5",
+      "faster-whisper",
+      "PyQt6",
+      "pytest",
+    ],
+    href: "https://github.com/Shuxrat-dat/Ai-Agent",
+    accent: "#e4e4e7",
+    image: "/projects/ai-agent.png",
+  },
+  {
+    id: "03",
     slug: "companyos",
     title: "CompanyOS",
-    subtitle: "Корпоративная платформа",
+    subtitle: "Ранний MVP мультитенантной SaaS-платформы",
     summary:
-      "Корпоративная операционная система для управления компанией: сотрудники, проекты, задачи, документы, коммуникации, HR, аналитика, биллинг и AI-ассистент в единой мультитenant-платформе.",
+      "Monorepo корпоративной платформы: NestJS API, Next.js web, BullMQ worker и cron-scheduler; 26 API-модулей, 96 моделей Prisma и около 31 UI-страницы.",
     description:
-      "Монорепозиторий на NestJS + Next.js с PostgreSQL, Redis, очередями и production-ready инфраструктурой.",
+      "Проект не позиционируется как зрелый production-продукт; внешние billing/AI-интеграции работают при настройке env.",
     features: [
-      "Организационная структура и рабочие пространства",
-      "Проекты, задачи, документы и календарь",
-      "RBAC, аудит и безопасность",
-      "Автоматизации и аналитика",
-      "AI-ассистент и биллинг",
-      "Интеграции, webhooks и API-ключи",
+      "JWT rotation, OAuth strategies, API keys",
+      "Tenant guard, RBAC + resource ACL",
+      "Audit logging и rate limiting",
+      "Проекты, задачи, документы, календарь",
+      "Чат на Socket.io, файлы через MinIO/S3",
+      "Очереди для email, AI, analytics, webhooks",
     ],
     stack: [
       "NestJS",
-      "Next.js",
+      "Next.js 15",
       "TypeScript",
       "PostgreSQL",
       "Prisma",
       "Redis",
+      "BullMQ",
+      "Socket.io",
+      "MinIO",
       "Docker",
       "Turborepo",
     ],
@@ -195,74 +257,37 @@ export const projects = [
     image: "/projects/companyos.png",
   },
   {
-    id: "02",
-    slug: "payforge",
-    title: "PayForge",
-    subtitle: "Платформа управления платежами",
+    id: "04",
+    slug: "switchlab",
+    title: "SwitchLab / Switchyard",
+    subtitle: "Full-stack e-commerce demo",
     summary:
-      "Full Stack приложение для управления платежами и пользователями: аутентификация, роли, админ-панель, REST API и работа с базой данных.",
+      "Интернет-магазин механических клавиатур с каталогом, корзиной, checkout, кабинетом пользователя и административной панелью; оплата намеренно симулируется.",
     description:
-      "Архитектура построена с упором на безопасность, масштабируемость и удобство дальнейшего развития.",
+      "Показывает работу вне основного Node.js-стека: транзакционный backend, доведённый до CI и E2E.",
     features: [
-      "Аутентификация и авторизация пользователей",
-      "Ролевая модель доступа",
-      "REST API",
-      "Административная панель",
-      "PostgreSQL через Prisma ORM",
-      "Валидация данных и обработка ошибок",
+      "Rust/Axum API с PostgreSQL/SQLx",
+      "Argon2 sessions, CSRF/Origin protection",
+      "Checkout в транзакции, остатки под FOR UPDATE",
+      "OpenAPI/Swagger и роли",
+      "React/Vite storefront и admin flows",
+      "CI: rustfmt, clippy, Vitest, Playwright E2E",
     ],
     stack: [
-      "Node.js",
-      "TypeScript",
-      "React",
-      "Next.js",
+      "Rust",
+      "Axum",
+      "Tokio",
+      "SQLx",
       "PostgreSQL",
-      "Prisma",
+      "React 19",
+      "TypeScript",
+      "Vite",
+      "TanStack Query",
+      "Playwright",
       "Docker",
-      "JWT",
     ],
-    href: "https://github.com/Shuxrat-dat/PayForge",
-    accent: "#e4e4e7",
-    image: "/projects/payforge.png",
-  },
-  {
-    id: "03",
-    slug: "switchlab",
-    title: "SwitchLab",
-    subtitle: "Лаборатория управления устройствами",
-    summary:
-      "Веб-приложение с современным интерфейсом для управления устройствами и экспериментальными функциями.",
-    description:
-      "Сделан акцент на удобный UI, модульную архитектуру и масштабируемость.",
-    features: [
-      "Современный пользовательский интерфейс",
-      "Модульная архитектура",
-      "Масштабируемая структура проекта",
-    ],
-    stack: ["Next.js", "TypeScript", "React", "Tailwind CSS"],
     href: "https://github.com/Shuxrat-dat/SwitchLab",
     accent: "#e4e4e7",
     image: "/projects/switchlab.png",
-  },
-  {
-    id: "04",
-    slug: "ai-agent",
-    title: "AI Agent",
-    subtitle: "Локальный AI-ассистент",
-    summary:
-      "Персональный локальный ИИ-помощник для автоматизации повседневных задач без зависимости от облачных сервисов.",
-    description:
-      "Объединяет локальные языковые модели, генерацию текста, обработку запросов и взаимодействие с инструментами.",
-    features: [
-      "Работа с локальными AI-моделями",
-      "Генерация текста",
-      "Выполнение пользовательских команд",
-      "Интеграция с локальными инструментами",
-      "Расширяемая архитектура",
-    ],
-    stack: ["Python", "Ollama", "FastAPI", "LLM", "REST API"],
-    href: "https://github.com/Shuxrat-dat/Ai-Agent",
-    accent: "#e4e4e7",
-    image: "/projects/ai-agent.png",
   },
 ];

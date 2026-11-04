@@ -23,11 +23,11 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: `${profile.name} — Full Stack Developer`,
+  title: `${profile.name} — ${profile.role}`,
   description:
-    "Middle Full Stack разработчик с опытом 4,7 года. Node.js, TypeScript, React, Next.js, PostgreSQL, Prisma, Docker.",
+    "Backend-разработчик с опытом 4,7 года. Node.js, TypeScript, PostgreSQL, Prisma, Redis, RabbitMQ, Docker.",
   openGraph: {
-    title: `${profile.name} — Full Stack Developer`,
+    title: `${profile.name} — ${profile.role}`,
     description: profile.tagline,
     locale: "ru_RU",
     type: "website",

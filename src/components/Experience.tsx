@@ -9,22 +9,22 @@ const milestones = [
   {
     label: "Опыт",
     value: profile.experience,
-    text: "Full Stack разработка от архитектуры до production-поддержки.",
+    text: "Веб-разработка и проектная практика.",
   },
   {
     label: "Уровень",
     value: profile.level,
-    text: "Самостоятельно веду фичи, проектирую API и интерфейсы под рост продукта.",
+    text: "Могу вести backend-функцию от схемы данных и API-контракта до тестов.",
   },
   {
     label: "Фокус",
-    value: "Systems",
-    text: "Безопасность, производительность, чистая архитектура и сопровождение.",
+    value: "Backend",
+    text: "Надёжность API, безопасность и сопровождаемость.",
   },
   {
     label: "Стек",
-    value: "Modern",
-    text: "Node.js, TypeScript, React, Next.js, PostgreSQL, Prisma, Docker.",
+    value: "Node.js",
+    text: "TypeScript, PostgreSQL, Prisma, Redis, RabbitMQ, Docker, React/Next.js.",
   },
 ];
 
@@ -34,7 +34,7 @@ export function Experience() {
       <div className="container">
         <Reveal>
           <p className="eyebrow">
-            <ScrambleText text="Highlights" />
+            <ScrambleText text="Главное" />
           </p>
           <h2 className="section-title">
             Коротко о

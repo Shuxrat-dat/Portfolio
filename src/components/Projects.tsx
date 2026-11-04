@@ -99,7 +99,7 @@ function ProjectScreenshot({
             </motion.div>
           ) : (
             <div className="absolute inset-0 flex items-center justify-center font-mono text-xs text-white/35">
-              Screenshot unavailable
+              Скриншот недоступен
             </div>
           )}
 
@@ -213,7 +213,7 @@ function ProjectCard({
             <div className="mb-6 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.18em] text-white/35">
               <span style={{ color: project.accent }}>{project.id}</span>
               <span className="h-px w-8 bg-white/15" />
-              <span>Case Study</span>
+              <span>Кейс</span>
             </div>
 
             <motion.h3
@@ -250,7 +250,7 @@ function ProjectCard({
 
             <div className={compact ? "mt-6" : "mt-8"}>
               <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.16em] text-white/30">
-                Key Features
+                Ключевые возможности
               </p>
               <ul className={compact ? "grid grid-cols-2 gap-x-5 gap-y-2" : "space-y-2.5"}>
                 {project.features.map((feature, featureIndex) => (
@@ -281,7 +281,7 @@ function ProjectCard({
 
             <div className={compact ? "mt-6" : "mt-8"}>
               <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.16em] text-white/30">
-                Technology Stack
+                Стек технологий
               </p>
               <div className="flex flex-wrap gap-2">
                 {project.stack.map((tech, techIndex) => (
@@ -307,10 +307,7 @@ function ProjectCard({
 
             <div className={`${compact ? "mt-7" : "mt-10"} flex flex-wrap items-center gap-3`}>
               <MagneticButton href={project.href} external>
-                Open Case Study
-              </MagneticButton>
-              <MagneticButton href={project.href} variant="ghost" external>
-                View on GitHub
+                Смотреть на GitHub
               </MagneticButton>
             </div>
           </div>
@@ -441,7 +438,7 @@ export function Projects() {
           </h2>
           <ScrollText
             className="section-lead mt-4 max-w-2xl"
-            text="Кейсы с фокусом на архитектуру, API, интерфейс и production-готовность."
+            text="Личная инженерная практика: backend, AI-инструменты и full-stack демо."
           />
         </motion.div>
 

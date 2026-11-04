@@ -51,7 +51,7 @@ export function Contact() {
               </h2>
               <ScrollText
             className="section-lead"
-            text="Middle Full Stack разработчик. Могу усилить backend, закрыть full cycle разработку или подключиться к продуктовой команде."
+            text="Backend-разработчик. Могу вести backend-функцию от схемы данных до тестов, при необходимости закрываю интерфейс на React/Next.js."
           />
 
               <Stagger className="mt-10 grid gap-4 sm:grid-cols-2">
@@ -83,6 +83,12 @@ export function Contact() {
                 </MagneticButton>
                 <MagneticButton href={profile.contacts.telegramHref} variant="ghost" external>
                   Открыть Telegram
+                </MagneticButton>
+                <MagneticButton href={profile.resume.ru} variant="ghost" download>
+                  Резюме RU
+                </MagneticButton>
+                <MagneticButton href={profile.resume.en} variant="ghost" download>
+                  Resume EN
                 </MagneticButton>
               </div>
             </div>

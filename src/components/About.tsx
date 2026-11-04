@@ -30,13 +30,13 @@ export function About() {
               <ScrambleText text="01 — О себе" />
             </p>
             <h2 className="section-title">
-              <span className="gradient-text">Создаю продукты,</span>
+              <span className="gradient-text">Создаю backend</span>
               <br />
-              готовые к production
+              с упором на надёжность
             </h2>
             <ScrollText
               className="section-lead"
-              text="Для работодателей важна не витрина, а то, как я проектирую систему, закрываю риски и сопровождаю продукт после релиза."
+              text="Мне важны надёжность API, безопасность и сопровождаемость: от схемы данных и API-контракта до фоновой обработки и тестов."
             />
           </Reveal>
 

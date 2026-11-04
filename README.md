@@ -1,6 +1,6 @@
-# Portfolio — Shuxrat Maxmadaliev
+# Portfolio — Shuxrat Mahmadaliev
 
-Портфолио Full Stack разработчика для работодателей.
+Портфолио Backend-разработчика для работодателей.
 
 ## Запуск
 

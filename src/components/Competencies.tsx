@@ -97,14 +97,14 @@ export function Competencies() {
             <div className="mx-auto mt-4 h-px w-16 bg-gradient-to-r from-transparent via-accent to-transparent" />
             <ScrollText
             className="section-lead mx-auto mt-5"
-            text="Путь развития и практический опыт в создании production-ready продуктов."
+            text="Самостоятельная инженерная подготовка и личная проектная практика."
           />
           </div>
         </Reveal>
 
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-10">
           <TimelineColumn title="Образование" items={education} icon="edu" />
-          <TimelineColumn title="Опыт работы" items={workExperience} icon="work" />
+          <TimelineColumn title="Проектная практика" items={workExperience} icon="work" />
         </div>
       </div>
     </section>

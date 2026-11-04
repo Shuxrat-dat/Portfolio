@@ -10,6 +10,7 @@ type MagneticButtonProps = {
   variant?: "primary" | "ghost";
   className?: string;
   external?: boolean;
+  download?: boolean;
 };
 
 export function MagneticButton({
@@ -18,6 +19,7 @@ export function MagneticButton({
   variant = "primary",
   className = "",
   external = false,
+  download = false,
 }: MagneticButtonProps) {
   const isPrimary = variant === "primary";
 
@@ -27,6 +29,7 @@ export function MagneticButton({
         href={href}
         target={external ? "_blank" : undefined}
         rel={external ? "noreferrer" : undefined}
+        download={download || undefined}
         data-cursor="pointer"
         className={`magnetic-btn relative inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold tracking-tight ${
           isPrimary ? "magnetic-btn--primary" : "magnetic-btn--ghost"
