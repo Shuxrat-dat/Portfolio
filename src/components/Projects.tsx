@@ -45,7 +45,7 @@ function ProjectScreenshot({
       viewport={{ once: true, amount: 0.35 }}
     >
       <div
-        className="pointer-events-none absolute -inset-6 rounded-[2rem] opacity-60 blur-3xl"
+        className="pointer-events-none absolute -inset-6 rounded-[2rem] opacity-60"
         style={{
           background: `radial-gradient(circle at 40% 30%, ${project.accent}33, transparent 55%)`,
         }}
@@ -411,13 +411,13 @@ export function Projects() {
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[length:72px_72px] opacity-40 [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]" />
         <motion.div
           aria-hidden
-          className="absolute top-[15%] left-[-10%] h-[420px] w-[420px] rounded-full bg-accent/10 blur-3xl"
+          className="absolute top-[15%] left-[-10%] h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.08),transparent_65%)]"
           animate={reduce ? undefined : { x: [0, 40, 0], y: [0, 30, 0] }}
           transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
           aria-hidden
-          className="absolute right-[-8%] bottom-[10%] h-[380px] w-[380px] rounded-full bg-accent-2/10 blur-3xl"
+          className="absolute right-[-8%] bottom-[10%] h-[380px] w-[380px] rounded-full bg-[radial-gradient(circle,rgba(212,212,216,0.07),transparent_65%)]"
           animate={reduce ? undefined : { x: [0, -30, 0], y: [0, -20, 0] }}
           transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
         />

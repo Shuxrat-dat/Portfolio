@@ -115,7 +115,7 @@ export function Hero() {
           style={{ y: portraitY, opacity: portraitOpacity }}
           className="portrait-mask absolute inset-x-0 top-[7svh] bottom-[9svh] mx-auto w-[min(96vw,760px)]"
         >
-          <div className="absolute inset-x-[15%] top-[18%] bottom-[20%] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.09),transparent_68%)] blur-3xl" />
+          <div className="absolute inset-x-[15%] top-[18%] bottom-[20%] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.09),transparent_68%)]" />
           <ParticleField
             source={{ image: "/portrait.webp" }}
             delay={base + 0.2}

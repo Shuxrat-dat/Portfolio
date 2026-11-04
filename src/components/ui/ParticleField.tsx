@@ -36,6 +36,8 @@ type Particle = {
 
 const THRESHOLD = 34;
 const REPEL_RADIUS = 90;
+const SLOW_FRAME_MS = 24;
+const SLOW_FRAME_LIMIT = 45;
 const CHROME_STOPS: [number, string][] = [
   [0, "#ffffff"],
   [0.26, "#f4f4f5"],
@@ -77,6 +79,9 @@ export function ParticleField({
     let frame = 0;
     let visible = true;
     let disposed = false;
+    let lastFrame = 0;
+    let slowFrames = 0;
+    let thinned = false;
     let startAt = performance.now() + delay * 1000;
     const pointer = { x: -9999, y: -9999 };
 
@@ -178,6 +183,7 @@ export function ParticleField({
 
     const draw = (now: number) => {
       ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#f4f4f5";
       const started = now >= startAt;
       const s = reduced || !scatter ? 0 : easeInOut(Math.min(1, Math.max(0, scatter.get())));
       for (const p of particles) {
@@ -202,14 +208,33 @@ export function ParticleField({
         }
         const twinkle = reduced ? 1 : 0.82 + Math.sin(now * 0.0016 + p.phase) * 0.18;
         ctx.globalAlpha = p.alpha * twinkle * (1 - s * 0.55) * (started || reduced ? 1 : 0.35);
-        ctx.fillStyle = "#f4f4f5";
         ctx.fillRect(p.x, p.y, p.size, p.size);
       }
       ctx.globalAlpha = 1;
     };
 
+    // Halves the particle count, with larger dots, on devices that can't keep up.
+    const thin = () => {
+      particles = particles.filter((_, index) => index % 2 === 0);
+      for (const p of particles) p.size *= 1.3;
+    };
+
+    const trackLoad = (now: number) => {
+      const delta = now - lastFrame;
+      lastFrame = now;
+      if (thinned || delta > 200) return;
+      slowFrames = delta > SLOW_FRAME_MS ? slowFrames + 1 : Math.max(0, slowFrames - 1);
+      if (slowFrames > SLOW_FRAME_LIMIT) {
+        thinned = true;
+        thin();
+      }
+    };
+
     const loop = (now: number) => {
-      if (visible) draw(now);
+      if (visible) {
+        draw(now);
+        trackLoad(now);
+      }
       frame = requestAnimationFrame(loop);
     };
 
@@ -225,6 +250,7 @@ export function ParticleField({
 
     const resizeObserver = new ResizeObserver(() => {
       build();
+      if (thinned) thin();
       if (reduced) draw(performance.now());
     });
     const intersection = new IntersectionObserver(([entry]) => {
