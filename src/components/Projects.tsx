@@ -5,12 +5,14 @@ import {
   motion,
   useMotionTemplate,
   useMotionValue,
+  useMotionValueEvent,
   useReducedMotion,
+  useScroll,
   useSpring,
   useTransform,
   type MotionValue,
 } from "framer-motion";
-import { useRef, useState, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { projects } from "@/data/content";
 import { MagneticButton } from "./ui/MagneticButton";
 import { ScrambleText } from "./ui/ScrambleText";
@@ -34,8 +36,14 @@ function ProjectScreenshot({
   const parallaxX = useTransform(mouseX, [0, 1], reduce ? [0, 0] : [-12, 12]);
   const parallaxY = useTransform(mouseY, [0, 1], reduce ? [0, 0] : [-10, 10]);
 
+  // The wrapper observes the viewport: a fully clipped element never registers as in view.
   return (
-    <div className="relative">
+    <motion.div
+      className="relative"
+      initial={reduce ? false : "hidden"}
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.35 }}
+    >
       <div
         className="pointer-events-none absolute -inset-6 rounded-[2rem] opacity-60 blur-3xl"
         style={{
@@ -43,7 +51,16 @@ function ProjectScreenshot({
         }}
       />
 
-      <div className="relative overflow-hidden rounded-[1.6rem] border border-white/[0.12] bg-[#09090b] shadow-[0_40px_100px_rgba(0,0,0,0.55)]">
+      <motion.div
+        className="relative overflow-hidden rounded-[1.6rem] border border-white/[0.12] bg-[#09090b] shadow-[0_40px_100px_rgba(0,0,0,0.55)]"
+        variants={{
+          hidden: { clipPath: "inset(0 100% 0 0 round 1.6rem)" },
+          visible: {
+            clipPath: "inset(0 0% 0 0 round 1.6rem)",
+            transition: { duration: 1.1, ease: [0.65, 0, 0.35, 1] },
+          },
+        }}
+      >
         <div className="flex items-center gap-2 border-b border-white/[0.06] bg-white/[0.03] px-4 py-3 backdrop-blur-xl">
           <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]/90" />
           <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]/90" />
@@ -58,6 +75,10 @@ function ProjectScreenshot({
             <motion.div
               className="absolute inset-[-4%]"
               style={{ x: parallaxX, y: parallaxY }}
+              variants={{
+                hidden: { scale: 1.15 },
+                visible: { scale: 1, transition: { duration: 1.4, ease: [0.16, 1, 0.3, 1] } },
+              }}
             >
               <Image
                 src={project.image}
@@ -89,12 +110,21 @@ function ProjectScreenshot({
           {/* Soft reflection */}
           <div className="pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-white/[0.07] to-transparent opacity-70" />
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
+function ProjectCard({
+  project,
+  index,
+  compact = false,
+}: {
+  project: Project;
+  index: number;
+  /** Denser layout that fits one viewport, used by the horizontal track. */
+  compact?: boolean;
+}) {
   const reduce = useReducedMotion();
   const cardRef = useRef<HTMLElement>(null);
   const mouseX = useMotionValue(0.5);
@@ -111,7 +141,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   const cursorGlow = useMotionTemplate`radial-gradient(520px circle at ${glowX}% ${glowY}%, ${project.accent}22, transparent 42%)`;
   const borderGlow = useMotionTemplate`radial-gradient(420px circle at ${glowX}% ${glowY}%, ${project.accent}aa, rgba(255,255,255,0.12) 35%, transparent 60%)`;
 
-  const reversed = index % 2 === 1;
+  const reversed = !compact && index % 2 === 1;
 
   const onMove = (event: MouseEvent<HTMLElement>) => {
     if (reduce || !cardRef.current) return;
@@ -163,10 +193,12 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
 
         <div
-          className={`relative grid items-center gap-10 p-6 sm:p-8 lg:gap-14 lg:p-12 xl:p-14 ${
-            reversed
-              ? "lg:grid-cols-[0.92fr_1.18fr]"
-              : "lg:grid-cols-[1.18fr_0.92fr]"
+          className={`relative grid items-center ${
+            compact
+              ? "gap-10 p-8 lg:grid-cols-[1.1fr_1fr] xl:p-10"
+              : `gap-10 p-6 sm:p-8 lg:gap-14 lg:p-12 xl:p-14 ${
+                  reversed ? "lg:grid-cols-[0.92fr_1.18fr]" : "lg:grid-cols-[1.18fr_0.92fr]"
+                }`
           }`}
         >
           <div className={reversed ? "lg:order-2" : "lg:order-1"}>
@@ -185,7 +217,9 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             </div>
 
             <motion.h3
-              className="text-[clamp(2.2rem,4vw,3.4rem)] font-semibold tracking-[-0.04em] text-white"
+              className={`${
+                compact ? "text-[clamp(2rem,3vw,2.75rem)]" : "text-[clamp(2.2rem,4vw,3.4rem)]"
+              } font-semibold tracking-[-0.04em] text-white`}
               initial={reduce ? false : { opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -201,18 +235,24 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               {project.subtitle}
             </p>
 
-            <p className="mt-5 max-w-xl text-[1.05rem] leading-[1.75] text-white/72">
+            <p
+              className={`max-w-xl text-white/72 ${
+                compact ? "mt-4 text-[0.98rem] leading-[1.65]" : "mt-5 text-[1.05rem] leading-[1.75]"
+              }`}
+            >
               {project.summary}
             </p>
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/45">
-              {project.description}
-            </p>
+            {!compact && (
+              <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/45">
+                {project.description}
+              </p>
+            )}
 
-            <div className="mt-8">
+            <div className={compact ? "mt-6" : "mt-8"}>
               <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.16em] text-white/30">
                 Key Features
               </p>
-              <ul className="space-y-2.5">
+              <ul className={compact ? "grid grid-cols-2 gap-x-5 gap-y-2" : "space-y-2.5"}>
                 {project.features.map((feature, featureIndex) => (
                   <motion.li
                     key={feature}
@@ -239,7 +279,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               </ul>
             </div>
 
-            <div className="mt-8">
+            <div className={compact ? "mt-6" : "mt-8"}>
               <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.16em] text-white/30">
                 Technology Stack
               </p>
@@ -265,7 +305,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               </div>
             </div>
 
-            <div className="mt-10 flex flex-wrap items-center gap-3">
+            <div className={`${compact ? "mt-7" : "mt-10"} flex flex-wrap items-center gap-3`}>
               <MagneticButton href={project.href} external>
                 Open Case Study
               </MagneticButton>
@@ -280,11 +320,91 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   );
 }
 
-export function Projects() {
-  const reduce = useReducedMotion();
+const HORIZONTAL_QUERY =
+  "(min-width: 1024px) and (min-height: 720px) and (prefers-reduced-motion: no-preference)";
+
+/** Horizontal track only where a compact card fits the viewport and motion is welcome. */
+function useHorizontalLayout() {
+  const [horizontal, setHorizontal] = useState(false);
+  useEffect(() => {
+    const query = window.matchMedia(HORIZONTAL_QUERY);
+    const update = () => setHorizontal(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+  return horizontal;
+}
+
+/** Pins the section and turns vertical scroll into a sideways slide through the cards. */
+function HorizontalTrack() {
+  const pinRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [shift, setShift] = useState(0);
+  const [active, setActive] = useState(0);
+  const shiftValue = useMotionValue(0);
+  const { scrollYProgress } = useScroll({ target: pinRef, offset: ["start start", "end end"] });
+  const x = useTransform(() => -scrollYProgress.get() * shiftValue.get());
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const measure = () => {
+      const next = Math.max(0, track.scrollWidth - window.innerWidth);
+      setShift(next);
+      shiftValue.set(next);
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(track);
+    window.addEventListener("resize", measure);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [shiftValue]);
+
+  useMotionValueEvent(scrollYProgress, "change", (progress) => {
+    setActive(Math.min(projects.length - 1, Math.round(progress * (projects.length - 1))));
+  });
 
   return (
-    <section id="portfolio" className="relative overflow-hidden py-[clamp(6rem,12vw,10rem)]">
+    <div ref={pinRef} className="relative" style={{ height: `calc(100vh + ${shift}px)` }}>
+      <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden pt-20">
+        <motion.div
+          ref={trackRef}
+          style={{ x }}
+          className="flex w-max gap-8 px-[max(1.25rem,calc((100vw-1200px)/2))]"
+        >
+          {projects.map((project, index) => (
+            <div key={project.slug} className="w-[min(1200px,calc(100vw-2.5rem))] shrink-0">
+              <ProjectCard project={project} index={index} compact />
+            </div>
+          ))}
+        </motion.div>
+
+        <div className="mx-auto mt-8 flex w-[min(1200px,calc(100%-2.5rem))] items-center gap-5 font-mono text-[11px] tracking-[0.18em] text-dim uppercase">
+          <span className="text-ink">{String(active + 1).padStart(2, "0")}</span>
+          <span className="relative h-px flex-1 overflow-hidden bg-white/10">
+            <motion.span
+              className="absolute inset-0 origin-left bg-gradient-to-r from-white/40 to-white"
+              style={{ scaleX: scrollYProgress }}
+            />
+          </span>
+          <span>{String(projects.length).padStart(2, "0")}</span>
+          <span className="hidden xl:inline">· {projects[active].title}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function Projects() {
+  const reduce = useReducedMotion();
+  const horizontal = useHorizontalLayout();
+
+  return (
+    <section id="portfolio" className="relative overflow-clip py-[clamp(6rem,12vw,10rem)]">
       {/* Premium depth background */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_20%_10%,rgba(255,255,255,0.12),transparent_45%),radial-gradient(700px_circle_at_80%_40%,rgba(212,212,216,0.08),transparent_40%),linear-gradient(180deg,#050505_0%,#08080c_45%,#050505_100%)]" />
@@ -325,12 +445,16 @@ export function Projects() {
           />
         </motion.div>
 
-        <div className="flex flex-col gap-16 md:gap-24 lg:gap-28">
-          {projects.map((project, index) => (
-            <ProjectCard key={project.slug} project={project} index={index} />
-          ))}
-        </div>
+        {!horizontal && (
+          <div className="flex flex-col gap-16 md:gap-24 lg:gap-28">
+            {projects.map((project, index) => (
+              <ProjectCard key={project.slug} project={project} index={index} />
+            ))}
+          </div>
+        )}
       </div>
+
+      {horizontal && <HorizontalTrack />}
     </section>
   );
 }

@@ -13,7 +13,7 @@ import { profile } from "@/data/content";
 import { heroProgress } from "@/lib/heroProgress";
 import { getIntroDelay } from "./IntroOverlay";
 import { MagneticButton } from "./ui/MagneticButton";
-import { ParticlePortrait } from "./ui/ParticlePortrait";
+import { ParticleField } from "./ui/ParticleField";
 import { ScrambleText } from "./ui/ScrambleText";
 
 type NameGeometry = { dx: number; dy: number; scale: number; distance: number };
@@ -31,7 +31,9 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
   const portraitY = useTransform(scrollYProgress, [0, 1], [0, 180]);
-  const portraitOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const portraitOpacity = useTransform(scrollYProgress, [0.3, 0.75], [1, 0]);
+  // Portrait breaks into dust as the visitor scrolls on; About rebuilds it into "4,7".
+  const portraitScatter = useTransform(scrollYProgress, [0.04, 0.6], [0, 1]);
 
   // Scroll-linked flight of the big name into the header logo.
   const nameRef = useRef<HTMLSpanElement>(null);
@@ -114,7 +116,11 @@ export function Hero() {
           className="portrait-mask absolute inset-x-0 top-[7svh] bottom-[9svh] mx-auto w-[min(96vw,760px)]"
         >
           <div className="absolute inset-x-[15%] top-[18%] bottom-[20%] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.09),transparent_68%)] blur-3xl" />
-          <ParticlePortrait src="/portrait.webp" delay={base + 0.2} />
+          <ParticleField
+            source={{ image: "/portrait.webp" }}
+            delay={base + 0.2}
+            scatter={portraitScatter}
+          />
         </motion.div>
 
         <div className="container relative z-10">
